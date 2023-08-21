@@ -17,4 +17,15 @@ class Patron(Base):
     card_num = Column(Integer())
     home_branch = (String())
 
+
+class Book(Base):
+    __tablename__ = 'books'
     
+    id = Column(Integer(), primary_key=True)
+    title = Column(String())
+    subject = Column(String())
+    author_first_name = Column(String())
+    author_last_name = Column(String())
+    ISBN = Column(Integer())
+    branch = (String())
+
