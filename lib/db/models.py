@@ -29,3 +29,9 @@ class Book(Base):
     ISBN = Column(Integer())
     branch = (String())
 
+class Library(Base):
+    __tablename__ = 'libraries'
+
+    id = Column(Integer(), primary_key=True)
+    branch = (String())
+    address = (String())
