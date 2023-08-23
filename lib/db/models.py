@@ -40,7 +40,7 @@ class Book(Base):
     subject = Column(String())
     author_first_name = Column(String())
     author_last_name = Column(String())
-    ISBN = Column(Integer(), unique=True)
+    ISBN = Column(String(), unique=True)
     branch_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship('Request', backref='book')
