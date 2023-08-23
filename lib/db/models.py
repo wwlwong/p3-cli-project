@@ -14,8 +14,8 @@ class Patron(Base):
     id = Column(Integer(), primary_key=True)
     first_name = Column(String())
     last_name = Column(String())
-    phone = Column(Integer())
-    card_num = Column(Integer())
+    phone = Column(Integer(), unique=True)
+    card_num = Column(Integer(), unique=True)
     home_branch_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship("Request", backref='patron')
@@ -40,7 +40,7 @@ class Book(Base):
     subject = Column(String())
     author_first_name = Column(String())
     author_last_name = Column(String())
-    ISBN = Column(Integer())
+    ISBN = Column(Integer(), unique=True)
     branch_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship('Request', backref='book')
@@ -58,7 +58,7 @@ class Library(Base):
     __tablename__ = 'libraries'
 
     id = Column(Integer(), primary_key=True)
-    branch = (String())
+    branch = (String(), unique=True)
     address = (String())
 
     patrons = relationship('Patron', backref='library')
