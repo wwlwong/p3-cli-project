@@ -58,7 +58,7 @@ class Library(Base):
     __tablename__ = 'libraries'
 
     id = Column(Integer(), primary_key=True)
-    branch = (String(), unique=True)
+    branch = (String())
     address = (String())
 
     patrons = relationship('Patron', backref='library')
