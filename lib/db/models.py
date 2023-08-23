@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.associationproxy import association_proxy
 
 engine = create_engine('sqlite:///library.db')
 
@@ -18,6 +19,8 @@ class Patron(Base):
     home_branch_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship("Request", backref='patron')
+    books = association_proxy('requests', 'book', 
+                              creator=lambda bk: Request(book=bk))
 
     def __repr__(self):
 
@@ -41,6 +44,8 @@ class Book(Base):
     branch_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship('Request', backref='book')
+    patrons = association_proxy('requests', 'patron',
+                                creator=lambda pt: Request(patron=pt))
 
     def __repr__(self):
 
@@ -55,6 +60,9 @@ class Library(Base):
     id = Column(Integer(), primary_key=True)
     branch = (String())
     address = (String())
+
+    patrons = relationship('Patron', backref='library')
+    books = relationship('Book', backref='library')
 
     def __repr__(self):
 
