@@ -36,4 +36,14 @@ book1 = Book(
     branch_id = 1
 )
 
+library1 = Library(
+    branch = 'Fairview',
+    address = fake.street_address()
+)
 
+request1 = Request(
+    patron_id = 1,
+    book_id = 1,
+    branch_id = 1,
+    queue = 0
+)
