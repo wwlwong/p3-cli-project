@@ -37,7 +37,7 @@ class Book(Base):
     
     id = Column(Integer(), primary_key=True)
     title = Column(String())
-    subject = Column(String())
+    genre = Column(String())
     author_first_name = Column(String())
     author_last_name = Column(String())
     ISBN = Column(String(), unique=True)
