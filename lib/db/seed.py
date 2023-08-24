@@ -27,3 +27,13 @@ patron1 = Patron(
     home_branch_id = 1
 )
 
+book1 = Book(
+    title = fake.sentence(nb_words=6),
+    genre = random.choice(genres),
+    author_first_name = fake.first_name(),
+    author_last_name = fake.last_name(),
+    ISBN = fake.isbn13(),
+    branch_id = 1
+)
+
+
