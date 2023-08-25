@@ -18,7 +18,7 @@ class Patron(Base):
     card_num = Column(Integer(), unique=True)
     home_branch_id = (Integer(), ForeignKey('libraries.id'))
 
-    library = relationship("Library", back_populates = 'patrons')
+    #library = relationship("Library", back_populates = 'patrons')
     requests = relationship("Request", backref='patron')
     books = association_proxy('requests', 'book', 
                               creator=lambda bk: Request(book=bk))
