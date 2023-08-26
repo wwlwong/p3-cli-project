@@ -39,8 +39,7 @@ class Book(Base):
     id = Column(Integer(), primary_key=True)
     title = Column(String())
     genre = Column(String())
-    author_first_name = Column(String())
-    author_last_name = Column(String())
+    author_name = Column(String())
     ISBN = Column(String(), unique=True)
     library = (String())
 
@@ -53,7 +52,7 @@ class Book(Base):
         return f'Book(id={self.id}, ' + \
             f'title={self.title}, ' + \
             f'genre={self.genre}, ' + \
-            f'author_last_name={self.author_last_name}, ' + \
+            f'author_name={self.author_name}, ' + \
             f'library={self.library}, ' + \
             f'ISBN={self.ISBN})'
 
