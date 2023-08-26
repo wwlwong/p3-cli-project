@@ -3,7 +3,7 @@ import random
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Patron, Book, Library, Request
+from models import Patron, Book, Request
 
 import uuid
 
@@ -19,12 +19,14 @@ session = Session()
 genres = ['Ficton', 'Romance', 'History', 'Autobiography', 'Crime fiction', 'Fantasy',
            'Thriller', 'Mystery', 'Science fiction', 'Graphic', 'Suspense', 'Fairy tale', 'Humor', 'Western']
 
+libraries = ['Fairview', 'Centennial', 'Hillcrest', 'Cedarbrae', 'Ethennonnhawahstihnen']
+
 patron1 = Patron(
     first_name = fake.first_name(),
     last_name = fake.last_name(),
     phone = int(fake.msisdn()[:10]),
     card_num = int(str(uuid.uuid4().int)[:10]),
-    home_branch_id = 1
+    #home_branch_id = 1
 )
 
 book1 = Book(
@@ -33,18 +35,14 @@ book1 = Book(
     author_first_name = fake.first_name(),
     author_last_name = fake.last_name(),
     ISBN = fake.isbn13(),
-    branch_id = 1
+    library = random.choice(libraries)
 )
 
-library1 = Library(
-    branch = 'Fairview',
-    address = fake.street_address()
-)
 
 request1 = Request(
     patron_id = 1,
     book_id = 1,
-    branch_id = 1,
+    #branch_id = 1,
     queue = 0
 )
 
