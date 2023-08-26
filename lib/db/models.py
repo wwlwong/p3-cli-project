@@ -16,7 +16,7 @@ class Patron(Base):
     last_name = Column(String())
     phone = Column(Integer(), unique=True)
     card_num = Column(Integer(), unique=True)
-    home_branch_id = (Integer(), ForeignKey('libraries.id'))
+    library_id = (Integer(), ForeignKey('libraries.id'))
 
     #library = relationship("Library", back_populates = 'patrons')
     requests = relationship("Request", backref='patron')
@@ -42,7 +42,7 @@ class Book(Base):
     author_first_name = Column(String())
     author_last_name = Column(String())
     ISBN = Column(String(), unique=True)
-    branch_id = (Integer(), ForeignKey('libraries.id'))
+    library_id = (Integer(), ForeignKey('libraries.id'))
 
     requests = relationship('Request', backref='book')
     patrons = association_proxy('requests', 'patron',
@@ -77,7 +77,7 @@ class Request(Base):
     id = Column(Integer(), primary_key=True)
     patron_id = Column(Integer(), ForeignKey('patrons.id'))
     book_id = Column(Integer(), ForeignKey('books.id'))
-    branch_id = Column(Integer(), ForeignKey('libraries.id'))
+    library_id = Column(Integer(), ForeignKey('libraries.id'))
     queue = Column(Integer())
     created_at = Column(DateTime(), server_default=func.now())
 
