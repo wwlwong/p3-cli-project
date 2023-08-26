@@ -16,7 +16,7 @@ class Patron(Base):
     last_name = Column(String())
     phone = Column(Integer(), unique=True)
     card_num = Column(Integer(), unique=True)
-    library_id = (Integer(), ForeignKey('libraries.id'))
+    #library_id = (Integer(), ForeignKey('libraries.id'))
 
     #library = relationship("Library", back_populates = 'patrons')
     requests = relationship("Request", backref='patron')
@@ -42,7 +42,7 @@ class Book(Base):
     author_first_name = Column(String())
     author_last_name = Column(String())
     ISBN = Column(String(), unique=True)
-    library_id = (Integer(), ForeignKey('libraries.id'))
+    library = (String())
 
     requests = relationship('Request', backref='book')
     patrons = association_proxy('requests', 'patron',
@@ -53,23 +53,24 @@ class Book(Base):
         return f'Book(id={self.id}, ' + \
             f'title={self.title}, ' + \
             f'author_last_name={self.author_last_name}, ' + \
+            f'library={self.library}, ' + \
             f'ISBN={self.ISBN})'
 
-class Library(Base):
-    __tablename__ = 'libraries'
+#class Library(Base):
+#    __tablename__ = 'libraries'
 
-    id = Column(Integer(), primary_key=True)
-    branch = (String())
-    address = (String())
+#    id = Column(Integer(), primary_key=True)
+#    branch = (String())
+#    address = (String())
 
-    patrons = relationship('Patron', backref='library')
-    books = relationship('Book', backref='library')
+#    patrons = relationship('Patron', backref='library')
+#    books = relationship('Book', backref='library')
 
-    def __repr__(self):
+#    def __repr__(self):
 
-        return f'Library(id={self.id}, ' + \
-            f'branch={self.branch}, ' + \
-            f'address={self.address})'
+ #       return f'Library(id={self.id}, ' + \
+ #           f'branch={self.branch}, ' + \
+ #           f'address={self.address})'
 
 class Request(Base):
     __tablename__ = 'requests'
@@ -77,7 +78,7 @@ class Request(Base):
     id = Column(Integer(), primary_key=True)
     patron_id = Column(Integer(), ForeignKey('patrons.id'))
     book_id = Column(Integer(), ForeignKey('books.id'))
-    library_id = Column(Integer(), ForeignKey('libraries.id'))
+    #library_id = Column(Integer(), ForeignKey('libraries.id'))
     queue = Column(Integer())
     created_at = Column(DateTime(), server_default=func.now())
 
@@ -86,7 +87,6 @@ class Request(Base):
         return f'Request(id={self.id}, ' + \
             f'patron_id={self.patron_id}, ' + \
             f'book_id={self.book_id}, ' + \
-            f'branch_id={self.branch_id}, ' + \
             f'queue_id={self.queue})'
 
 
