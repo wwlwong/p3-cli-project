@@ -9,6 +9,7 @@ sqlalchemy = "*"
 alembic = "*"
 faker = "*"
 pandas = "*"
+simple-term-menu = "*"
 
 [dev-packages]
 
