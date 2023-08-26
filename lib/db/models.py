@@ -52,6 +52,7 @@ class Book(Base):
 
         return f'Book(id={self.id}, ' + \
             f'title={self.title}, ' + \
+            f'genre={self.genre}, ' + \
             f'author_last_name={self.author_last_name}, ' + \
             f'library={self.library}, ' + \
             f'ISBN={self.ISBN})'
