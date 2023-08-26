@@ -47,7 +47,7 @@ books = [
         title = data.title[i],
         genre = data.categories[i],
         author_name = data.authors[i],
-        ISBN = data.isbn13[i],
+        ISBN = data.isbn10[i],
         library = random.choice(libraries)
     )
     for i in range(2000)]
