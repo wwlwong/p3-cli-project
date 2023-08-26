@@ -52,12 +52,14 @@ books = [
 session.add_all(books)
 session.commit()
 
-requests = Request(
-    patron_id = random.randint(0,9),
-    book_id = random.randint(0,98),
-    #branch_id = 1,
-    queue = 0
-)
+requests = [
+    Request(
+        patron_id = random.randint(0,9),
+        book_id = random.randint(0,98),
+        #branch_id = 1,
+        queue = 0
+    )
+    for i in range(10)]
 
 session.add_all(requests)
 session.commit()
