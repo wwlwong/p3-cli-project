@@ -7,6 +7,8 @@ from models import Patron, Book, Request
 
 import uuid
 
+import pandas as pd
+
 fake = Faker()
 
 #if __name__ == '__main__':
@@ -20,10 +22,12 @@ session.query(Book).delete()
 session.query(Request).delete()
 
 # list of genres
-genres = ['Ficton', 'Romance', 'History', 'Autobiography', 'Crime fiction', 'Fantasy',
-           'Thriller', 'Mystery', 'Science fiction', 'Graphic', 'Suspense', 'Fairy tale', 'Humor', 'Western']
+#genres = ['Ficton', 'Romance', 'History', 'Autobiography', 'Crime fiction', 'Fantasy',
+#           'Thriller', 'Mystery', 'Science fiction', 'Graphic', 'Suspense', 'Fairy tale', 'Humor', 'Western']
 
 libraries = ['Fairview', 'Centennial', 'Hillcrest', 'Cedarbrae', 'Ethennonnhawahstihnen']
+
+data = pd.read_csv('books.csv', nrows=2001)
 
 patrons = [
     Patron(
@@ -40,14 +44,13 @@ session.commit()
 
 books = [
     Book(
-        title = fake.sentence(nb_words=6),
-        genre = random.choice(genres),
-        author_first_name = fake.first_name(),
-        author_last_name = fake.last_name(),
-        ISBN = fake.isbn13(),
+        title = data.title[i],
+        genre = data.categories[i],
+        author_name = data.authors[i],
+        ISBN = data.isbn13[i],
         library = random.choice(libraries)
     )
-    for i in range(99)]
+    for i in range(2000)]
 
 session.add_all(books)
 session.commit()
@@ -55,7 +58,7 @@ session.commit()
 requests = [
     Request(
         patron_id = random.randint(0,9),
-        book_id = random.randint(0,98),
+        book_id = random.randint(0,1999),
         #branch_id = 1,
         queue = 0
     )
