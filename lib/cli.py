@@ -27,19 +27,21 @@ class Cli():
 
     def handle_signup(self):
         self.clear_screen()
-        first_name = input('Please enter your first name')
-        last_name = input('Please enter your last name')
-        phone = input('Please enter your 10 digit phone number in this format xxxxxxxxxx')
-        if isinstance(first_name, str) & isinstance(last_name, str) & isinstance(phone, int):
-            patron = Patron.create_patron(first_name, last_name, phone)
+        first_name = input('Please enter your first name ')
+        last_name = input('Please enter your last name ')
+        phone = input('Please enter your 10 digit phone number in this format xxxxxxxxxx ')
+        #if isinstance(first_name, str) & isinstance(last_name, str) & isinstance(phone, int):
+        patron = Patron.create_patron(first_name, last_name, phone)
+        session.add(patron)
+        session.commit()
+        self.current_patron = patron
 
-            self.current_patron = patron
-
-            print(f'Welcome to the library {patron.first_name}')
-            print(f'Your library card number is {patron.card_num}')
-        else:
-            print('One or more of you inputs is not the correct format, please try again.')
-            self.welcome()
+        print(f'Welcome to the library {patron.first_name}')
+        print(f'Your library card number is {patron.card_num}')
+        self.main_menu()
+        #else:
+            #print('One or more of you inputs is not the correct format, please try again.')
+            #self.welcome()
 
     def handle_login(self):
         self.clear_screen()
