@@ -128,8 +128,12 @@ class Cli():
         if selection == 'Previous menu':
             self.render_request(patron)
         else:
+            book_id = request.book_id
             session.delete(request)
+            for book_request in session.query(Request).filter(Request.book_id == book_id):
+                book_request.queue -= 1
             session.commit()
+
 
 
 
