@@ -7,6 +7,7 @@ class Cli():
         current_patron = None
 
     def welcome(self):
+        self.clear_screen()
         print('Choose from the following options')
         options = ['Login', 'Sign-up', 'Exit']
         terminal_menu = TerminalMenu(options)
@@ -20,8 +21,10 @@ class Cli():
 
     def exit(self):
         print('Thank you for using the library')
+        self.current_patron = None
 
     def handle_signup(self):
+        self.clear_screen()
         first_name = input('Please enter your first name')
         last_name = input('Please enter your last name')
         phone = input('Please enter your 10 digit phone number in this format xxxxxxxxxx')
@@ -37,6 +40,7 @@ class Cli():
             self.welcome()
 
     def handle_login(self):
+        self.clear_screen()
         card_num = input("Please enter your library card number")
         patron = Patron.find_by(card_num=card_num)
         if patron:
@@ -52,7 +56,28 @@ class Cli():
             print('The library card number was not found. Please try again')
             self.welcome()
             
+    def clear_screen(self):
+        print('\n' * 20)
 
+    def main_menu(self):
+        self.clear_screen()
+        options = []
+        print('Choose from the following options')
+        if self.current_patron.requests:
+            options.extend(['Search', 'Update Info', 'View requests', 'Exit'])
+        else:
+            options.extend(['Search', 'Update Info', 'Exit'])
+        terminal_menu = TerminalMenu(options)
+        menu_entry_index = terminal_menu.show()
+
+        if options[menu_entry_index] == 'Search':
+            self.search()
+        elif options[menu_entry_index] == "Update Info":
+            self.patron_update()
+        elif options[menu_entry_index] == 'View requests':
+            self.render_request()
+        else:
+            self.exit()
 
 
 
