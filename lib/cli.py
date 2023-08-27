@@ -36,6 +36,24 @@ class Cli():
             print('One or more of you inputs is not the correct format, please try again.')
             self.welcome()
 
+    def handle_login(self):
+        card_num = input("Please enter your library card number")
+        patron = Patron.find_by(card_num=card_num)
+        if patron:
+            phone = input("Please enter the last 4 digits of your phone number")
+            if str(phone) == str(patron.phone)[-4:]:
+                print(f'Welcome to the library, {patron.first_name}')
+                self.current_patron = patron
+                self.main_menu()
+            else:
+                print ('The number entered is incorrect, please login again')
+                self.welcome()
+        else:
+            print('The library card number was not found. Please try again')
+            self.welcome()
+            
+
+
 
 
 
