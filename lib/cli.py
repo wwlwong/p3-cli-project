@@ -79,6 +79,13 @@ class Cli():
         else:
             self.exit()
 
+    def patron_update(self):
+        self.clear_screen()
+        print('Which would you like to update?')
+        options = ['First name', 'Last name', 'Phone']
+        terminal_menu = TerminalMenu(options)
+        menu_entry_index = terminal_menu.show()
+
 
 
 
