@@ -37,6 +37,13 @@ class Patron(Base):
         session.add(patron)
         session.commit()
         return patron
+    
+    @classmethod
+    def find_by(cls, **kwargs):
+        patron = session.query(cls).filter_by(**kwargs).first()
+        if patron:
+            return patron
+        
 
     def __repr__(self):
 
