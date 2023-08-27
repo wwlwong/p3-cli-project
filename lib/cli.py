@@ -1,5 +1,6 @@
 from simple_term_menu import TerminalMenu
 from models import Patron, Book, Request
+from sqlalchemy import update, delete
 
 class Cli():
 
@@ -80,11 +81,21 @@ class Cli():
             self.exit()
 
     def patron_update(self):
+        patron = session.Query(Patron)
         self.clear_screen()
         print('Which would you like to update?')
         options = ['First name', 'Last name', 'Phone']
         terminal_menu = TerminalMenu(options)
         menu_entry_index = terminal_menu.show()
+
+        if options[menu_entry_index] == 'First name':
+            first_name = input('Please enter new first name')
+        elif options[menu_entry_index] == 'Last name':
+            last_name = input('Please enter new last name')
+        else:
+            phone = input('Please enter new phone number')
+
+        self.current_patron.update
 
 
 
