@@ -8,14 +8,15 @@ from models import Patron, Book, Request
 import uuid
 
 import pandas as pd
+from session import session
 
 fake = Faker()
 
 #if __name__ == '__main__':
 
-engine = create_engine('sqlite:///library.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+#engine = create_engine('sqlite:///library.db')
+#Session = sessionmaker(bind=engine)
+#session = Session()
 
 session.query(Patron).delete()
 session.query(Book).delete()

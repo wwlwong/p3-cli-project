@@ -5,9 +5,9 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.associationproxy import association_proxy
 import uuid
 
-engine = create_engine('sqlite:///library.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+#engine = create_engine('sqlite:///library.db')
+#Session = sessionmaker(bind=engine)
+#session = Session()
 
 Base = declarative_base()
 
@@ -39,7 +39,7 @@ class Patron(Base):
         return patron
     
     @classmethod
-    def find_by(cls, **kwargs):
+    def find_by(cls, session, **kwargs):
         patron = session.query(cls).filter_by(**kwargs).first()
         if patron:
             return patron

@@ -1,6 +1,7 @@
 from simple_term_menu import TerminalMenu
 from models import Patron, Book, Request
 from sqlalchemy import update, delete
+from session import session
 
 class Cli():
 
@@ -43,7 +44,7 @@ class Cli():
     def handle_login(self):
         self.clear_screen()
         card_num = input("Please enter your library card number")
-        patron = Patron.find_by(card_num=card_num)
+        patron = Patron.find_by(session, card_num=card_num)
         if patron:
             phone = input("Please enter the last 4 digits of your phone number")
             if str(phone) == str(patron.phone)[-4:]:
@@ -81,7 +82,7 @@ class Cli():
             self.exit()
 
     def patron_update(self):
-        patron = session.Query(Patron)
+        patron = session.Query(Patron).filter(Patron.id == self.current_patron.id)
         self.clear_screen()
         print('Which would you like to update?')
         options = ['First name', 'Last name', 'Phone']
@@ -90,12 +91,17 @@ class Cli():
 
         if options[menu_entry_index] == 'First name':
             first_name = input('Please enter new first name')
+            patron.update({'first_name' : first_name})
         elif options[menu_entry_index] == 'Last name':
             last_name = input('Please enter new last name')
+            patron.update({'last_name' : last_name})
         else:
             phone = input('Please enter new phone number')
+            patron.update({'phone' : phone})
 
-        self.current_patron.update
+        session.commit()
+
+    
 
 
 
