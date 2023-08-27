@@ -1,10 +1,13 @@
 from sqlalchemy import create_engine, func
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship, backref, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.associationproxy import association_proxy
+import uuid
 
 engine = create_engine('sqlite:///library.db')
+Session = sessionmaker(bind=engine)
+session = Session()
 
 Base = declarative_base()
 
@@ -22,6 +25,18 @@ class Patron(Base):
     requests = relationship("Request", backref='patron')
     books = association_proxy('requests', 'book', 
                               creator=lambda bk: Request(book=bk))
+
+    @classmethod
+    def create_patron(cls, first_name, last_name, phone):
+        patron = Patron(
+            first_name = first_name,
+            last_name = last_name,
+            phone = phone,
+            card_num = int(str(uuid.uuid4().int)[:10])
+        )
+        session.add(patron)
+        session.commit()
+        return patron
 
     def __repr__(self):
 
