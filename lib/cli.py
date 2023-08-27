@@ -118,7 +118,20 @@ class Cli():
             selection_id = int(selection.split('-')[0].strip())
             self.render_request_option(session.query(Request).get(selection_id), patron)
 
-    
+    def render_request_option(self, request, patron):
+        self.clear_screen()
+        print(request)
+        options = ['Delete', 'Previous menu']
+        menu = TerminalMenu(options)
+        selection = menu.show()
+
+        if selection == 'Previous menu':
+            self.render_request(patron)
+        else:
+            session.delete(request)
+            session.commit()
+
+
 
 
 
