@@ -63,9 +63,10 @@ class Cli():
 
     def main_menu(self):
         self.clear_screen()
+        patron = session.Query(Patron).filter(Patron.id == self.current_patron.id)
         options = []
         print('Choose from the following options')
-        if self.current_patron.requests:
+        if patron.requests:
             options.extend(['Search', 'Update Info', 'View requests', 'Exit'])
         else:
             options.extend(['Search', 'Update Info', 'Exit'])
@@ -75,14 +76,14 @@ class Cli():
         if options[menu_entry_index] == 'Search':
             self.search()
         elif options[menu_entry_index] == "Update Info":
-            self.patron_update()
+            self.patron_update(patron)
         elif options[menu_entry_index] == 'View requests':
-            self.render_request()
+            self.render_request(patron)
         else:
             self.exit()
 
-    def patron_update(self):
-        patron = session.Query(Patron).filter(Patron.id == self.current_patron.id)
+    def patron_update(self, patron):
+        #patron = session.Query(Patron).filter(Patron.id == self.current_patron.id)
         self.clear_screen()
         print('Which would you like to update?')
         options = ['First name', 'Last name', 'Phone']
@@ -101,8 +102,28 @@ class Cli():
 
         session.commit()
 
+    def search(self):
+        pass
+
+    def render_request(self, patron):
+        self.clear_screen()
+        patron_requests = [f'{request.id} - {request.book.title}' for request in patron.requests]
+        patron_requests.append("Main menu")
+        menu = TerminalMenu(patron_requests)
+        selection = menu.show()
+
+        if selection == "Main menu":
+            self.main_menu()
+        else:
+            selection_id = int(selection.split('-')[0].strip())
+            self.render_request_option(session.query(Request).get(selection_id), patron)
+
     
 
+
+
+app = Cli()
+app.welcome()
 
 
 
