@@ -61,7 +61,7 @@ requests = [
         patron_id = random.randint(0,9),
         book_id = random.randint(0,1999),
         #branch_id = 1,
-        queue = 0
+        queue = 1
     )
     for i in range(10)]
 
