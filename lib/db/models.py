@@ -114,9 +114,20 @@ class Request(Base):
     id = Column(Integer(), primary_key=True)
     patron_id = Column(Integer(), ForeignKey('patrons.id'))
     book_id = Column(Integer(), ForeignKey('books.id'))
-    #library_id = Column(Integer(), ForeignKey('libraries.id'))
     queue = Column(Integer())
     created_at = Column(DateTime(), server_default=func.now())
+
+
+    @classmethod
+    def create_request(cls, patron_id, book_id, queue):
+        request = Request(
+            patron_id = patron_id,
+            book_id = book_id,
+            queue = queue + 1,
+        )
+        session.add(request)
+        session.commit()
+        return request
 
     def __repr__(self):
 

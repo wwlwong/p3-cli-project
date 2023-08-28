@@ -116,7 +116,29 @@ class Cli():
         
 
     def search(self):
-        pass
+        self.clear_screen()
+        print('How would you like to search by? ')
+        options = ['Title', 'Genre', 'Author', 'ISBN-10', 'Return to main menu']
+        terminal_menu = TerminalMenu(options)
+        menu_entry_index = terminal_menu.show()
+
+        if menu_entry_index == "Title":
+            title_input = input('Please enter book title: ')
+
+        elif menu_entry_index == "Genre":
+            genre_input = input('Please enter book genre: ')
+
+        elif menu_entry_index == 'Author':
+            author_input = input('Please enter author name: ')
+
+        elif menu_entry_index == 'ISBN-10':
+            ISBN_input = input('Please enter ISBN-10 number: ')
+        
+        else:
+            self.main_menu()
+
+    def render_queries(self)
+
 
     
     def render_options(self, options):
