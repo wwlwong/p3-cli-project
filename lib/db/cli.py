@@ -145,9 +145,27 @@ class Cli():
             self.search()
         else:
             selection_id = int(selection.split('-')[0].strip())
-            self.render_book_option(session.query(Book).get(selection_id))
+            book = session.query(Book).get(selection_id)
+            self.current_book = book
+            self.render_book_option(book)
     
-    
+    def render_book_option(self, book, queries):
+        self.clear_screen()
+        book_info = session.query(Book).get(book.id)
+        print(book_info)
+        options = ['Request book', 'Search results']
+        selection = self.render_options(options)
+
+        if selection == 'Search results':
+            self.render_queries(queries)
+            self.current_book = None
+        else:
+            book_id = book.id
+            existing_requests = session.query(Request).filter(Request.book_id == book.id)
+            new_request = Request.create_request(self.current_patron.id, self.current_book.id, existing_requests.count())
+            session.add(new_request)
+            session.commit()
+            self.render_queries(queries)
 
 
     def handle_request(self):
