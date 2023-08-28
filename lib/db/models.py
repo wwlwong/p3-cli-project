@@ -87,8 +87,14 @@ class Book(Base):
     @classmethod
     
     def query_by(cls, session, arg, value):
-        book_query = session.query(cls).filter(cls.{arg}.ilike('%{value}%')).all()
-        
+        if arg == 'title':
+            book_query = session.query(cls).filter(cls.title.ilike('%{value}%')).all()
+        elif arg == 'genre':
+            book_query = session.query(cls).filter(cls.genre.ilike('%{value}%')).all()
+        elif arg == 'author_name':
+            book_query = session.query(cls).filter(cls.author_name.ilike('%{value}%')).all()
+        else:
+            book_query = session.query(cls).filter(cls.ISBN.ilike('%{value}%')).all()
         return book_query
 
 

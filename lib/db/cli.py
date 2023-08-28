@@ -114,30 +114,37 @@ class Cli():
         self.clear_screen()
         print('How would you like to search by? ')
         options = ['Title', 'Genre', 'Author', 'ISBN-10', 'Return to main menu']
-        terminal_menu = TerminalMenu(options)
-        menu_entry_index = terminal_menu.show()
+        selection = self.render_options(options)
 
-        if menu_entry_index == "Title":
-            title_input = input('Please enter book title: ')
-            queries = Book.query_by(session, 'title', title_input)
-        elif menu_entry_index == "Genre":
-            genre_input = input('Please enter book genre: ')
-            queries = Book.query_by(session, 'genre', genre_input)
-        elif menu_entry_index == 'Author':
-            author_input = input('Please enter author name: ')
-            queries = Book.query_by(session, 'author_name', author_input)
-        elif menu_entry_index == 'ISBN-10':
-            ISBN_input = input('Please enter ISBN-10 number: ')
-            queries = Book.query_by(session, 'ISBN', ISBN_input)
-        
-        else:
+        if selection == 'Return to main menu':
             self.main_menu()
-
+        elif selection == "Title":
+            title_input = input('Please enter book title: ')
+            queries = session.query(Book).filter(Book.title.ilike(title_input))
+            #queries = Book.query_by(session, 'title', title_input)
+        elif selection == "Genre":
+            genre_input = input('Please enter book genre: ')
+            queries = session.query(Book).filter(Book.genre.ilike(genre_input))
+            #queries = Book.query_by(session, 'genre', genre_input)
+        elif selection == 'Author':
+            author_input = input('Please enter author name: ')
+            queries = session.query(Book).filter(Book.author_name.ilike(author_input))
+            #queries = Book.query_by(session, 'author_name', author_input)
+        elif selection == 'ISBN-10':
+            ISBN_input = input('Please enter ISBN-10 number: ')
+            queries = session.query(Book).filter(Book.ISBN.ilike(ISBN_input))
+            #queries = Book.query_by(session, 'ISBN', ISBN_input)
         
+        time.sleep(2)
+        if queries.count() == 0:
+            print ('Sorry, there is no record in the library')
+            self.main_menu()
+        else:
+            self.render_queries(queries)
 
     def render_queries(self, queries):
         self.clear_screen()
-        book_queries = [f'{query.id} - {query.title}' for query in queries]
+        book_queries = [f'{query.id} - {query.title} - {query.author_name}' for query in queries]
         book_queries.append("Back")
         selection = self.render_options(book_queries)
 
@@ -147,7 +154,7 @@ class Cli():
             selection_id = int(selection.split('-')[0].strip())
             book = session.query(Book).get(selection_id)
             self.current_book = book
-            self.render_book_option(book)
+            self.render_book_option(book, queries)
     
     def render_book_option(self, book, queries):
         self.clear_screen()
@@ -172,6 +179,7 @@ class Cli():
         request_queue = session.query(Request).filter(Request.book_id == self.current_book.id)
         request = Request.create_request(self.current_patron.id, self.current_book.id, request_queue.count())
         print ("Book requested")
+        time.sleep(2)
         self.main_menu()
 
     
