@@ -92,11 +92,13 @@ class Cli():
     def patron_update(self):
         self.clear_screen()
         print('Which would you like to update?')
-        options = ['First name', 'Last name', 'Phone']
+        options = ['First name', 'Last name', 'Phone', 'Go Back']
         terminal_menu = TerminalMenu(options)
         menu_entry_index = terminal_menu.show()
 
-        if options[menu_entry_index] == 'First name':
+        if options[menu_entry_index] == 'Go Back':
+            pass
+        elif options[menu_entry_index] == 'First name':
             first_name = input('Please enter new first name: ')
             self.current_patron.update_info(session, self.current_patron.id, 'first_name', first_name)
         elif options[menu_entry_index] == 'Last name':
