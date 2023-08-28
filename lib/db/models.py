@@ -83,6 +83,15 @@ class Book(Base):
     patrons = association_proxy('requests', 'patron',
                                 creator=lambda pt: Request(patron=pt))
 
+
+    @classmethod
+    
+    def query_by(cls, session, arg, value):
+        book_query = session.query(cls).filter(cls.{arg}.ilike('%{value}%')).all()
+        
+        return book_query
+
+
     def __repr__(self):
 
         return f'Book(id={self.id}, ' + \
