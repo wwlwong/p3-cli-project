@@ -119,21 +119,35 @@ class Cli():
 
         if menu_entry_index == "Title":
             title_input = input('Please enter book title: ')
-
+            queries = Book.query_by(session, 'title', title_input)
         elif menu_entry_index == "Genre":
             genre_input = input('Please enter book genre: ')
-
+            queries = Book.query_by(session, 'genre', genre_input)
         elif menu_entry_index == 'Author':
             author_input = input('Please enter author name: ')
-
+            queries = Book.query_by(session, 'author_name', author_input)
         elif menu_entry_index == 'ISBN-10':
             ISBN_input = input('Please enter ISBN-10 number: ')
+            queries = Book.query_by(session, 'ISBN', ISBN_input)
         
         else:
             self.main_menu()
 
-    def render_queries(self):
-        pass
+        
+
+    def render_queries(self, queries):
+        self.clear_screen()
+        book_queries = [f'{query.id} - {query.title}' for query in queries]
+        book_queries.append("Back")
+        selection = self.render_options(book_queries)
+
+        if selection == "Back":
+            self.search()
+        else:
+            selection_id = int(selection.split('-')[0].strip())
+            self.render_book_option(session.query(Book).get(selection_id))
+    
+    
 
 
     def handle_request(self):
